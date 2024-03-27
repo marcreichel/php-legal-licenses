@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Comcast\PhpLegalLicenses\Console;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,10 +11,8 @@ class ShowCommand extends DependencyLicenseCommand
 {
     /**
      * Configure the command options.
-     *
-     * @return void
      */
-    protected function configure()
+    final protected function configure(): void
     {
         $this
         ->setName('show')
@@ -21,28 +21,19 @@ class ShowCommand extends DependencyLicenseCommand
 
     /**
      * Execute the command.
-     *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    final protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $dependencies = $this->getDependencyList();
         $this->outputDependencyLicenses($dependencies, $output);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
      * Generates Licenses list using packages retrieved from composer.lock file.
-     *
-     * @param array $dependencies
-     *
-     * @return void
      */
-    protected function outputDependencyLicenses($dependencies, $output)
+    final protected function outputDependencyLicenses(array $dependencies, OutputInterface $output): void
     {
         foreach ($dependencies as $dependency) {
             $text = $this->getTextForDependency($dependency);
@@ -52,12 +43,8 @@ class ShowCommand extends DependencyLicenseCommand
 
     /**
      * Retrieves text containing version and license information for the specified dependency.
-     *
-     * @param array $dependency
-     *
-     * @return string
      */
-    protected function getTextForDependency($dependency)
+    final protected function getTextForDependency(array $dependency): string
     {
         $name = $dependency['name'];
         $version = $dependency['version'];
@@ -68,14 +55,8 @@ class ShowCommand extends DependencyLicenseCommand
 
     /**
      * Generate formatted line detailing the version and license information for a particular dependency.
-     *
-     * @param string $name
-     * @param string $version
-     * @param string $licenceNames
-     *
-     * @return string
      */
-    protected function generateDependencyText($name, $version, $licenseNames)
+    final protected function generateDependencyText(string $name, string $version, string $licenseNames): string
     {
         return "$name@$version [$licenseNames]";
     }
